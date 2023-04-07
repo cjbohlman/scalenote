@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import Key from './components/Key';
+import Scale from './components/Scale';
 
 function App() {
   console.log('render')
@@ -82,56 +84,39 @@ function App() {
         <h3>Notes</h3>
         <ul className='piano'>
           {notes.map(note => {
-            if (note.includes('#')) {
-              return <li key={note} className="key" data-category='black' style={{ "left": `${(75 * (whiteKeysPassed - 1)) + 37.5}px`}}>
-                <button className='key__btn key__btn--black' onClick={handleKeyClick}>
-                  <p>{note}</p>
-                </button>
-              </li>
-            } else {
+            let color = ''
+            if (!note.includes('#')) {
               whiteKeysPassed += 1;
-              return <li key={note} className="key" data-category='white'>
-              <button className='key__btn key__btn--white' onClick={handleKeyClick}>
-                <p>{note}</p>
-              </button>
-            </li>
+              color = 'white'
+            } else {
+              color = 'black'
             }
+            return <Key
+              note={note}
+              color={color}
+              whiteKeysPassed={whiteKeysPassed}
+              handleKeyClick={handleKeyClick}
+            />
           })}
         </ul>
       </div>
 
       <div>
-        <h3>Possible Natural Major Scales</h3>
-        <ul className='scales'>
-          {notes.map(note => {
-            if (notesInScale(note, activeNotes, generateNaturalMajorScaleNotes)) {
-              return <li key={note} className='scale-btn'>
-                <p>{note}</p>
-              </li>
-            } else {
-              return <li key={note} className='scale-btn scale-btn--excluded'>
-                <p>{note}</p>
-              </li>
-            }
-          })}
-        </ul>
+        <Scale
+          heading='Possible Natural Major Scales'
+          notes={notes}
+          notesInScale={notesInScale}
+          activeNotes={activeNotes}
+          generateScaleFunc={generateNaturalMajorScaleNotes}/>
       </div>
 
       <div>
-        <h3>Possible Natural Minor Scales</h3>
-        <ul className='scales'>
-          {notes.map(note => {
-            if (notesInScale(note, activeNotes, generateNaturalMinorScaleNotes)) {
-              return <li key={note} className='scale-btn'>
-                <p>{note}</p>
-              </li>
-            } else {
-              return <li key={note} className='scale-btn scale-btn--excluded'>
-                <p>{note}</p>
-              </li>
-            }
-          })}
-        </ul>
+        <Scale
+          heading='Possible Natural Minor Scales'
+          notes={notes}
+          notesInScale={notesInScale}
+          activeNotes={activeNotes}
+          generateScaleFunc={generateNaturalMinorScaleNotes}/>
       </div>
     </div>
   )
