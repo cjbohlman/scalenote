@@ -1,4 +1,7 @@
-function Scale({heading, notes, notesInScale, activeNotes, generateScaleFunc}) {
+import { useMemo } from 'react';
+
+function Scales({heading, notes, notesInScale, activeNotes, generateScaleFunc}) {
+
   return <>
     <h3>{heading}</h3>
     <ul className='scales'>
@@ -11,4 +14,4 @@ function Scale({heading, notes, notesInScale, activeNotes, generateScaleFunc}) {
   </>
 }
 
-export default Scale
+export default Scales

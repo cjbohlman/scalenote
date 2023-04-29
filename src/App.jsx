@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 import Key from './components/Key';
-import Scale from './components/Scale';
+import Scales from './components/Scales';
 
 function App() {
-  console.log('render')
   const [activeNotes, setActiveNotes] = useState([])
   let whiteKeysPassed = 0;
 
@@ -25,6 +24,7 @@ function App() {
 
   const handleKeyClick = e => {
     e.target.classList.toggle('key__btn--selected');
+    console.log(activeNotes)
     if (activeNotes.includes(e.target.textContent)) {
       setActiveNotes(activeNotes.filter(note => note !== e.target.textContent));
     } else {
@@ -91,18 +91,17 @@ function App() {
             } else {
               color = 'black'
             }
-            return <Key
-              note={note}
-              color={color}
-              whiteKeysPassed={whiteKeysPassed}
-              handleKeyClick={handleKeyClick}
-            />
+            return <li key={note} className="key" data-category={color} style={color == 'black' ? { "left": `${(75 * (whiteKeysPassed - 1)) + 37.5}px`} : {}}>
+              <button className={`key__btn key__btn--${color}`} onClick={handleKeyClick}>
+                {note}
+              </button>
+            </li>;
           })}
         </ul>
       </div>
 
       <div>
-        <Scale
+        <Scales
           heading='Possible Natural Major Scales'
           notes={notes}
           notesInScale={notesInScale}
@@ -111,7 +110,7 @@ function App() {
       </div>
 
       <div>
-        <Scale
+        <Scales
           heading='Possible Natural Minor Scales'
           notes={notes}
           notesInScale={notesInScale}
