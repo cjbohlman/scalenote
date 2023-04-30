@@ -1,0 +1,27 @@
+.scales-container h3 {
+  margin-bottom: 0.75rem;
+}
+
+.scales {
+  display: inline-flex;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #222222;
+  position: relative;
+  background-color: transparent;
+}
+
+.scale-btn {
+  border-radius: 10%;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  background-color: #222222;
+  color: whitesmoke;
+  opacity: 0.33;
+}
+
+.scale-btn--valid {
+  opacity: 1;
+}

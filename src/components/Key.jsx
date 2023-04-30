@@ -1,12 +1,11 @@
-import { Fragment } from "react"
-function Key({note, color, whiteKeysPassed, handleKeyClick}) {
-  return <Fragment key={note}>
-    <li key={note} className="key" data-category={color} style={color == 'black' ? { "left": `${(75 * (whiteKeysPassed - 1)) + 37.5}px`} : {}}>
-      <button className={`key__btn key__btn--${color}`} onClick={handleKeyClick}>
-        {note}
-      </button>
-    </li>
-  </Fragment>
-}
+import './Key.css';
 
-export default Key
+export default function Key({note, color, whiteKeysPassed, handleKeyClick}) {
+  const keyWidth = 75;
+  
+  return <li key={note} className="key" data-category={color} style={color == 'black' ? { "left": `${((keyWidth + 1) * (whiteKeysPassed - 1)) + (keyWidth / 2)}px`} : {}}>
+    <button className={`key__btn key__btn--${color}`} onClick={handleKeyClick}>
+      {note}
+    </button>
+  </li>
+};

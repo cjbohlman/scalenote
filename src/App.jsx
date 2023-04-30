@@ -1,11 +1,10 @@
-import { useState } from 'react'
-import './App.css'
-import Key from './components/Key';
+import { useState } from 'react';
+import './App.css';
 import Scales from './components/Scales';
+import Piano from './components/Piano';
 
 function App() {
   const [activeNotes, setActiveNotes] = useState([])
-  let whiteKeysPassed = 0;
 
   const notes = [
     'C',
@@ -24,7 +23,6 @@ function App() {
 
   const handleKeyClick = e => {
     e.target.classList.toggle('key__btn--selected');
-    console.log(activeNotes)
     if (activeNotes.includes(e.target.textContent)) {
       setActiveNotes(activeNotes.filter(note => note !== e.target.textContent));
     } else {
@@ -32,10 +30,10 @@ function App() {
     }
   };
 
-  const generateNaturalMajorScaleNotes = (scaleRoot) => {
+  // Intervals: whole step, whole step, half step, whole step, whole step, whole step
+  const generateNaturalMajorScaleNotes = scaleRoot => {
     const scale = [scaleRoot]
     let idx = notes.indexOf(scaleRoot);
-    // Intervals: whole step, whole step, half step, whole step, whole step, whole step
     idx = (idx + 2) % notes.length;
     scale.push(notes[idx]);
     idx = (idx + 2) % notes.length;
@@ -51,10 +49,10 @@ function App() {
     return scale;
   };
 
-  const generateNaturalMinorScaleNotes = (scaleRoot) => {
+  // Interval: whole step, half step, whole step, whole step, half step, whole step, whole step
+  const generateNaturalMinorScaleNotes = scaleRoot => {
     const scale = [scaleRoot]
     let idx = notes.indexOf(scaleRoot);
-    // Interval: whole, half, whole, whole, half, whole, whole
     idx = (idx + 2) % notes.length;
     scale.push(notes[idx]);
     idx = (idx + 1) % notes.length;
@@ -68,57 +66,39 @@ function App() {
     idx = (idx + 2) % notes.length;
     scale.push(notes[idx]);
     return scale;
-  };
-
-  const notesInScale = (scaleRoot, selectedNotes, scaleGeneratorFunc) => {
-    const scaleNotes = scaleGeneratorFunc(scaleRoot);
-    return selectedNotes.filter(note => !scaleNotes.includes(note)).length == 0;
   };
 
   return (
     <div className="App">
       <h1>ScaleNote</h1>
-      <h2>Find music scales from selected piano notes</h2>
+      <h2>Find valid music scales from selected piano notes</h2>
 
-      <div>
-        <h3>Notes</h3>
-        <ul className='piano'>
-          {notes.map(note => {
-            let color = ''
-            if (!note.includes('#')) {
-              whiteKeysPassed += 1;
-              color = 'white'
-            } else {
-              color = 'black'
-            }
-            return <li key={note} className="key" data-category={color} style={color == 'black' ? { "left": `${(75 * (whiteKeysPassed - 1)) + 37.5}px`} : {}}>
-              <button className={`key__btn key__btn--${color}`} onClick={handleKeyClick}>
-                {note}
-              </button>
-            </li>;
-          })}
-        </ul>
+      <div className='piano-container'>
+        <Piano 
+          notes={notes}
+          handleKeyClick={handleKeyClick}
+        />
       </div>
 
-      <div>
+      <div className='scales-container'>
         <Scales
           heading='Possible Natural Major Scales'
           notes={notes}
-          notesInScale={notesInScale}
           activeNotes={activeNotes}
-          generateScaleFunc={generateNaturalMajorScaleNotes}/>
+          generateScaleFunc={generateNaturalMajorScaleNotes}
+        />
       </div>
 
-      <div>
+      <div className='scales-container'>
         <Scales
           heading='Possible Natural Minor Scales'
           notes={notes}
-          notesInScale={notesInScale}
           activeNotes={activeNotes}
-          generateScaleFunc={generateNaturalMinorScaleNotes}/>
+          generateScaleFunc={generateNaturalMinorScaleNotes}
+        />
       </div>
     </div>
   )
 }
 
-export default App
+export default App;
