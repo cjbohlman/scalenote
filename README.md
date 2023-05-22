@@ -5,4 +5,5 @@ A beginner React app built using Vite that, given selected notes on a piano, dis
 
 ### Backlog
  - [ ] Add CSS modules
+ - [ ] Add [modes](https://en.wikipedia.org/wiki/Diatonic_scale)
  - [ ] Deploy
